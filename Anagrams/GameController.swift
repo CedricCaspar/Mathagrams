@@ -30,15 +30,15 @@ class GameController {
   
   fileprivate var data = GameData()
   
-  fileprivate var audioController: AudioController
+  //fileprivate var audioController: AudioController
   
   var onAnagramSolved:( () -> ())!
   
-  init() {
+  /*init() {
     self.audioController = AudioController()
     self.audioController.preloadAudioEffects(AudioEffectFiles)
   }
-  
+  */
   func dealRandomAnagram () {
     //1
     assert(level.anagrams.count > 0, "no level loaded")
@@ -52,12 +52,12 @@ class GameController {
     let anagram2 = anagramPair[1] as! String
     
     //4
-    let anagram1length = count(anagram1)
-    let anagram2length = count(anagram2)
+    let anagram1length = anagram1.characters.count
+    let anagram2length = anagram2.characters.count
     
     //5
-    println("phrase1[\(anagram1length)]: \(anagram1)")
-    println("phrase2[\(anagram2length)]: \(anagram2)")
+    //print("phrase1[\(anagram1length)]: \(anagram1)")
+    //print("phrase2[\(anagram2length)]: \(anagram2)")
     
     //calculate the tile size
     let tileSide = ceil(ScreenWidth * 0.9 / CGFloat(max(anagram1length, anagram2length))) - TileMargin
@@ -72,10 +72,10 @@ class GameController {
     targets = []
     
     //create targets
-    for (index, letter) in enumerate(anagram2) {
+    for (index, letter) in anagram2.characters.enumerated() {
       if letter != " " {
         let target = TargetView(letter: letter, sideLength: tileSide)
-        target.center = CGPointMake(xOffset + CGFloat(index)*(tileSide + TileMargin), ScreenHeight/4)
+        target.center = CGPoint(x: xOffset + CGFloat(index)*(tileSide + TileMargin), y: ScreenHeight/4)
         
         gameView.addSubview(target)
         targets.append(target)
@@ -86,11 +86,11 @@ class GameController {
     tiles = []
     
     //2 create tiles
-    for (index, letter) in enumerate(anagram1) {
+    for (index, letter) in anagram1.characters.enumerated() {
       //3
       if letter != " " {
         let tile = TileView(letter: letter, sideLength: tileSide)
-        tile.center = CGPointMake(xOffset + CGFloat(index)*(tileSide + TileMargin), ScreenHeight/4*3)
+        tile.center = CGPoint(x: xOffset + CGFloat(index)*(tileSide + TileMargin), y: ScreenHeight/4*3)
         
         tile.randomize()
         tile.dragDelegate = self
@@ -114,7 +114,7 @@ class GameController {
     tileView.isMatched = true
     
     //2
-    tileView.isUserInteractionEnabled = false
+    tileView.isUserInteractionEnabled = true
     
     //3
     UIView.animate(withDuration: 0.35,
@@ -153,7 +153,7 @@ class GameController {
     self.stopStopwatch()
     
     //the anagram is completed!
-    audioController.playEffect(SoundWin)
+    //audioController.playEffect(SoundWin)
     
     // win animation
     let firstTarget = targets[0]
@@ -291,7 +291,7 @@ extension GameController:TileDragDelegateProtocol {
 
         //more stuff to do on success here
         
-        audioController.playEffect(SoundDing)
+        //audioController.playEffect(SoundDing)
         
         //give points
         data.points += level.pointsPerTile
@@ -318,7 +318,7 @@ extension GameController:TileDragDelegateProtocol {
         
         //more stuff to do on failure here
         
-        audioController.playEffect(SoundWrong)
+        //audioController.playEffect(SoundWrong)
         
         //take out points
         data.points -= level.pointsPerTile/2

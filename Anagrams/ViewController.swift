@@ -84,5 +84,7 @@ class ViewController: UIViewController {
     controller.dealRandomAnagram()
   }
   
+    
+
 }
 
