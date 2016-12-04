@@ -45,11 +45,12 @@ class GameController {
     
     //2
     let randomIndex = randomNumber(minX:0, maxX:UInt32(level.anagrams.count-1))
-    let anagramPair = level.anagrams[randomIndex]
+    let anagramPair = level.anagrams[0]
     
     //3
     let anagram1 = anagramPair[0] as! String
     let anagram2 = anagramPair[1] as! String
+    let anagram3 = anagramPair[2] as! String
     
     //4
     // ML Changed to .characters.count (Swift 2)
@@ -74,9 +75,11 @@ class GameController {
     targets = []
     
     //create targets
-    for (index, letter) in anagram2.characters.enumerated() {
+    for (index, letter) in anagram3.characters.enumerated() {
       if letter != " " {
-        let target = TargetView(letter: letter, sideLength: tileSide)
+        let thirdLetterIndex = anagram1.index(anagram1.startIndex, offsetBy: index)
+        let printletter = anagram1.characters[thirdLetterIndex]
+        let target = TargetView(letter: letter, sideLength: tileSide, printletter: printletter)
         // ML changed CGPointMake to CGPoint
         target.center = CGPoint(x: xOffset + CGFloat(index)*(tileSide + TileMargin), y: ScreenHeight/4)
         
@@ -89,28 +92,35 @@ class GameController {
     tiles = []
     
     //2 create tiles
-    for (index, letter) in anagram2.characters.enumerated() {
-      //3
-      if letter != " " {
+    for (index, letter) in anagram3.characters.enumerated() {
+      var indexer = 0
+      if letter != " " && letter != "<" {
         let tile = TileView(letter: letter, sideLength: tileSide)
-        tile.center = CGPoint(x: xOffset + CGFloat(index)*(tileSide + TileMargin), y: ScreenHeight/4*3)
+        tile.center = CGPoint(x: xOffset + CGFloat(indexer)*(tileSide + TileMargin), y: ScreenHeight/4*3)
         
         tile.randomize()
         tile.dragDelegate = self
         
         //4
-        gameView.addSubview(tile)
+        
         tiles.append(tile)
+        gameView.addSubview(tile)
+        indexer += 1
       }
     }
     
+    
+
     //start the timer
     self.startStopwatch()
     
     hud.hintButton.isEnabled = true
     
   }
-  
+    
+
+
+
   func placeTile(_ tileView: TileView, targetView: TargetView) {
     //1
     targetView.isMatched = true

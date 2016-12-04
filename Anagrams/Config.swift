@@ -20,6 +20,13 @@ func randomNumber(minX:UInt32, maxX:UInt32) -> Int {
   let result = (arc4random() % (maxX - minX + 1)) + minX
   return Int(result)
 }
+func randomNumberLessOne(minX:UInt32, maxX:UInt32) -> Int {
+    let maxX = maxX - 1
+    
+    let result = (arc4random() % (maxX - minX + 1)) + minX
+    return Int(result)
+}
+
 
 let TileMargin: CGFloat = 20.0
 
