@@ -45,7 +45,7 @@ class GameController {
     
     //2
     let randomIndex = randomNumber(minX:0, maxX:UInt32(level.anagrams.count-1))
-    let anagramPair = level.anagrams[0]
+    let anagramPair = level.anagrams[randomIndex]
     
     //3
     let anagram1 = anagramPair[0] as! String
@@ -56,6 +56,7 @@ class GameController {
     // ML Changed to .characters.count (Swift 2)
     let anagram1length = anagram1.characters.count
     let anagram2length = anagram2.characters.count
+    let anagram3length = anagram3.characters.count
     
     //5
     // ML print instead of println (Swift 2)
@@ -63,7 +64,7 @@ class GameController {
     print("phrase2[\(anagram2length)]: \(anagram2)")
     
     //calculate the tile size
-    let tileSide = ceil(ScreenWidth * 0.9 / CGFloat(max(anagram1length, anagram2length))) - TileMargin
+    let tileSide = ceil(ScreenWidth * 0.9 / CGFloat(max(anagram1length, anagram2length, anagram3length))) - TileMargin
     
     //get the left margin for first tile
     var xOffset = (ScreenWidth - CGFloat(max(anagram1length, anagram2length)) * (tileSide + TileMargin)) / 2.0
@@ -85,6 +86,9 @@ class GameController {
         
         gameView.addSubview(target)
         targets.append(target)
+        if letter == "<" {
+            target.isMatched = true
+        }
       }
     }
     
@@ -96,7 +100,7 @@ class GameController {
       var indexer = 0
       if letter != " " && letter != "<" {
         let tile = TileView(letter: letter, sideLength: tileSide)
-        tile.center = CGPoint(x: xOffset + CGFloat(indexer)*(tileSide + TileMargin), y: ScreenHeight/4*3)
+        tile.center = CGPoint(x: xOffset + CGFloat(index)*(tileSide + TileMargin), y: ScreenHeight/4*3)
         
         tile.randomize()
         tile.dragDelegate = self
