@@ -61,13 +61,13 @@ class GameController {
     //5
     // ML print instead of println (Swift 2)
     print("phrase1[\(anagram1length)]: \(anagram1)")
-    print("phrase2[\(anagram2length)]: \(anagram2)")
+    print("phrase2[\(anagram3length)]: \(anagram3)")
     
     //calculate the tile size
     let tileSide = ceil(ScreenWidth * 0.9 / CGFloat(max(anagram1length, anagram2length, anagram3length))) - TileMargin
     
     //get the left margin for first tile
-    var xOffset = (ScreenWidth - CGFloat(max(anagram1length, anagram2length)) * (tileSide + TileMargin)) / 2.0
+    var xOffset = (ScreenWidth - CGFloat(max(anagram1length, anagram2length, anagram3length)) * (tileSide + TileMargin)) / 2.0
     
     //adjust for tile center (instead of the tile's origin)
     xOffset += tileSide / 2.0
@@ -96,9 +96,9 @@ class GameController {
     tiles = []
     
     //2 create tiles
-    for (index, letter) in anagram3.characters.enumerated() {
-      var indexer = 0
-      if letter != " " && letter != "<" {
+    for (index, letter) in anagram2.characters.enumerated() {
+        
+    
         let tile = TileView(letter: letter, sideLength: tileSide)
         tile.center = CGPoint(x: xOffset + CGFloat(index)*(tileSide + TileMargin), y: ScreenHeight/4*3)
         
@@ -109,8 +109,8 @@ class GameController {
         
         tiles.append(tile)
         gameView.addSubview(tile)
-        indexer += 1
-      }
+    
+      
     }
     
     
@@ -301,7 +301,7 @@ extension GameController:TileDragDelegateProtocol {
     if let targetView = targetView {
       
       //2 check if letter matches
-      if targetView.letter == tileView.letter {
+      if targetView.printletter == tileView.letter {
         
         //3
         self.placeTile(tileView, targetView: targetView)
