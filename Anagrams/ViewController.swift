@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
   
   fileprivate let controller:GameController
-  
+    fileprivate let amountOfLevels: Int = 1
   required init?(coder aDecoder: NSCoder) {
     controller = GameController()
     super.init(coder: aDecoder)
@@ -51,10 +51,18 @@ class ViewController: UIViewController {
 
   func showLevelMenu() {
     //1 show the level selector menu
-    let alertController = UIAlertController(title: "Choose Difficulty Level",
+    let alertController = UIAlertController(title: "Choose Level",
       message: nil,
       preferredStyle:UIAlertControllerStyle.alert)
+    for level in 1 ... amountOfLevels {
+        let oneLevel = UIAlertAction(title: "Level \(level)", style:.default,
+                                 handler: {(alert:UIAlertAction!) in
+                                    self.showLevel(level)})
     
+    alertController.addAction(oneLevel)
+    
+    }
+        /*
     //2 set up the menu actions
     let easy = UIAlertAction(title: "Easy-peasy", style:.default,
       handler: {(alert:UIAlertAction!) in
@@ -73,7 +81,7 @@ class ViewController: UIViewController {
     alertController.addAction(easy)
     alertController.addAction(hard)
     alertController.addAction(hardest)
-    
+    */
     //4 show the UIAlertController
     self.present(alertController, animated: true, completion: nil)
   }

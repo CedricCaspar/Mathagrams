@@ -5,7 +5,7 @@ import UIKit
 class HUDView: UIView {
   
   var stopwatch: StopwatchView
-  var gamePoints: CounterLabelView
+  //var gamePoints: CounterLabelView
   
   var hintButton: UIButton!
   
@@ -19,20 +19,20 @@ class HUDView: UIView {
     self.stopwatch.setSeconds(0)
     
     //the dynamic points label
-    self.gamePoints = CounterLabelView(font: FontHUD, frame: CGRect(x: ScreenWidth-200, y: 30, width: 200, height: 70))
-    gamePoints.textColor = UIColor(red: 0.38, green: 0.098, blue: 0.035, alpha: 1)
-    gamePoints.value = 0
+    //self.gamePoints = CounterLabelView(font: FontHUD, frame: CGRect(x: ScreenWidth-200, y: 30, width: 200, height: 70))
+    //gamePoints.textColor = UIColor(red: 0.38, green: 0.098, blue: 0.035, alpha: 1)
+    //gamePoints.value = 0
     
     super.init(frame:frame)
     
-    self.addSubview(gamePoints)
+    //self.addSubview(gamePoints)
     
     //"points" label
-    let pointsLabel = UILabel(frame: CGRect(x: ScreenWidth-340, y: 30, width: 140, height: 70))
-    pointsLabel.backgroundColor = UIColor.clear
-    pointsLabel.font = FontHUD
-    pointsLabel.text = " Points:"
-    self.addSubview(pointsLabel)
+    //let pointsLabel = UILabel(frame: CGRect(x: ScreenWidth-340, y: 30, width: 140, height: 70))
+    //pointsLabel.backgroundColor = UIColor.clear
+    //pointsLabel.font = FontHUD
+    //pointsLabel.text = " Points:"
+    //self.addSubview(pointsLabel)
     
     self.addSubview(self.stopwatch)
     
@@ -43,7 +43,7 @@ class HUDView: UIView {
     
     //the help button
     self.hintButton = UIButton(type: .system)
-    hintButton.setTitle("Hint!", for:UIControlState())
+    hintButton.setTitle("Restart!", for:UIControlState())
     hintButton.titleLabel?.font = FontHUD
     hintButton.setBackgroundImage(hintButtonImage, for: UIControlState())
     hintButton.frame = CGRect(x: 50, y: 30, width: hintButtonImage.size.width, height: hintButtonImage.size.height)

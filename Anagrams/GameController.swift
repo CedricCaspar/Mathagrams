@@ -228,8 +228,8 @@ class GameController {
     hud.hintButton.isEnabled = false
     
     //2
-    data.points -= level.pointsPerTile / 2
-    hud.gamePoints.setValue(data.points, duration: 1.5)
+
+
     
     //3 find the first unmatched target and matching tile
     var foundTarget:TargetView? = nil
@@ -362,8 +362,7 @@ extension GameController:TileDragDelegateProtocol {
         audioController.playEffect(SoundDing)
         
         //give points
-        data.points += level.pointsPerTile
-        hud.gamePoints.setValue(data.points, duration: 0.5)
+
         
         //check for finished game
         self.checkForSuccess()
@@ -389,8 +388,7 @@ extension GameController:TileDragDelegateProtocol {
         audioController.playEffect(SoundWrong)
         
         //take out points
-        data.points -= level.pointsPerTile/2
-        hud.gamePoints.setValue(data.points, duration: 0.25)
+
       }
     }
     

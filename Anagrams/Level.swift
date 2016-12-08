@@ -8,7 +8,7 @@
 
 import Foundation
 struct Level {
-  let pointsPerTile: Int
+
   let timeToSolve: Int
   let anagrams: [NSArray]
   
@@ -24,7 +24,6 @@ struct Level {
     assert(levelDictionary != nil, "Level configuration file not found")
     
     //4 initialize the object from the dictionary
-    self.pointsPerTile = levelDictionary!["pointsPerTile"] as! Int
     self.timeToSolve = levelDictionary!["timeToSolve"] as! Int
     self.anagrams = levelDictionary!["anagrams"] as! [NSArray]
   }
