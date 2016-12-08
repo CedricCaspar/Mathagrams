@@ -31,12 +31,14 @@ class GameController {
   fileprivate var data = GameData()
   
   fileprivate var audioController: AudioController
+    fileprivate var anagram4: Array<String> = []
   
   var onAnagramSolved:( () -> ())!
   
   init() {
     self.audioController = AudioController()
     self.audioController.preloadAudioEffects(AudioEffectFiles)
+    self.anagram4 = []
   }
   
   func dealRandomAnagram () {
@@ -48,16 +50,17 @@ class GameController {
     let anagramPair = level.anagrams[randomIndex]
     
     //3
-    let anagram1 = anagramPair[0] as! String
-    let anagram2 = anagramPair[1] as! String
-    let anagram3 = anagramPair[2] as! String
+    let anagram1 = anagramPair[1] as! String
+    let anagram2 = anagramPair[2] as! String
+    let anagram3 = anagramPair[3] as! String
+
     
     //4
     // ML Changed to .characters.count (Swift 2)
     let anagram1length = anagram1.characters.count
     let anagram2length = anagram2.characters.count
     let anagram3length = anagram3.characters.count
-    
+    self.anagram4 = anagramPair[0] as! Array<String>
     //5
     // ML print instead of println (Swift 2)
     print("phrase1[\(anagram1length)]: \(anagram1)")
@@ -290,21 +293,69 @@ extension GameController:TileDragDelegateProtocol {
   //a tile was dragged, check if matches a target
   func tileView(_ tileView: TileView, didDragToPoint point: CGPoint) {
     var targetView: TargetView?
+    var targetIndex = 0
     for tv in targets {
       if tv.frame.contains(point) && !tv.isMatched {
         targetView = tv
         break
+        
       }
+    targetIndex += 1
     }
-    
-    //1 check if target was found
+    let randomIndex = randomNumber(minX:0, maxX:UInt32(level.anagrams.count-1))
+    let anagramPair = level.anagrams[randomIndex]
+    let anagram3 = anagramPair[3] as! String
+
+    //1 check if target was found and its position + wievieltes Leeres Feld es ist und ob es Lösung ist
     if let targetView = targetView {
-      
-      //2 check if letter matches
-      if targetView.printletter == tileView.letter {
+        var checkPosition = 0
+        for checkIndex in 0 ... targetIndex {
+            let letterIndex = anagram3.index(anagram3.startIndex, offsetBy: checkIndex)
+            let letter = anagram3.characters[letterIndex]
+            if letter == ">" {
+                if checkIndex == 0{
+                    checkPosition = 0
+                }else{
+                    checkPosition += 1
+                }
+            }else{
+            continue
+            }
+        }
+        var isSolution:Bool = false
+        var correctFoundLetter: Character = "a"
+        for solstring in 0 ... anagram4.count - 1{
+            let checkPositionIndex = anagram4[solstring].index(anagram4[solstring].startIndex, offsetBy: checkPosition)
+            let letter = anagram4[solstring].characters[checkPositionIndex]
+            if letter == tileView.letter {
+            isSolution = true
+            correctFoundLetter = letter
+            break
+            }else{
+            continue
+            }
+        }
+        print("Anagram4 = \(anagram4)")
+    //2 check if letter matches
+      if isSolution == true{
         
         //3
         self.placeTile(tileView, targetView: targetView)
+        var anagram5: Array<String> = []
+        var remainIndexes: Array<Int> = []
+        //noch übrige möglichen Lösungen eingrenzen
+        for solstring2 in 0 ... anagram4.count - 1{
+            let checkPositionIndex = anagram4[solstring2].index(anagram4[solstring2].startIndex, offsetBy: checkPosition, limitedBy: anagram4[solstring2].endIndex)
+            let letter = anagram4[solstring2].characters[checkPositionIndex!]
+            if letter == correctFoundLetter && correctFoundLetter != "a"{
+            remainIndexes.append(solstring2)
+            }
+        }
+        for i in 0 ... remainIndexes.count - 1{
+        anagram5.append(anagram4[remainIndexes[i]])
+        }
+        anagram4 = anagram5
+        print("Anagram4 = \(anagram4)")
 
         //more stuff to do on success here
         

@@ -5,14 +5,18 @@
 	<key>anagrams</key>
 	<array>
 		<array>
-			<string>5+6=11</string>
-			<string>3576</string>
+			<array>
+				<string>56</string>
+				<string>65</string>
+				<string>47</string>
+				<string>74</string>
+			</array>
+			<string>&gt;+&gt;=11</string>
+			<string>35746</string>
 			<string>&gt;&lt;&gt;&lt;&lt;&lt;</string>
 		</array>
 	</array>
 	<key>timeToSolve</key>
-	<integer>600</integer>
-	<key>pointsPerTile</key>
-	<integer>10</integer>
+	<integer>30</integer>
 </dict>
 </plist>
